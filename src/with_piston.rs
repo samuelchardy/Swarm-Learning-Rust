@@ -39,7 +39,7 @@ fn main() {
                 let transform = context
                     .transform
                     .trans(point.get_x() as f64, point.get_y() as f64)
-                    .rot_rad(-boid.get_angle() as f64);
+                    .rot_rad(-1.57075 + boid.get_angle() as f64);
 
                 polygon(boid.color, BOID_BOD, transform, gfx);
             }
