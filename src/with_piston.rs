@@ -5,6 +5,7 @@ mod constants;
 mod point;
 mod vector;
 mod world;
+mod waypoint;
 
 use piston_window::*;
 use world::World;
@@ -31,6 +32,24 @@ fn main() {
         window.draw_2d(&e, |context, gfx, _| {
             clear([1.0, 1.0, 1.0, 1.0], gfx);
 
+            // Redraw the waypoints
+            let waypoints = the_flock.get_waypoints();
+            for i in 0..waypoints.len() {
+                let waypoint = waypoints[i];
+                let point = waypoint.get_point();
+                let transform = context
+                    .transform
+                    .trans(point.get_x() as f64, point.get_y() as f64)
+                    .rot_rad(0 as f64);
+
+                // let width = 20.0 * (i as f64+1.0);
+                let width = 1.0 * waypoint.radius;
+                let rect = [-width/2.0, -width/2.0,
+                            width, width];
+                ellipse(waypoint.color, rect, transform, gfx);
+            }
+
+            // Redraw the boids
             the_flock.step(i);
             let boids = the_flock.get_boids();
             for i in 0..boids.len() {

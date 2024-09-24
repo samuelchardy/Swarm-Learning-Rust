@@ -1,4 +1,4 @@
-use crate::{boid::Boid, point::Point, vector::Vector};
+use crate::{boid::Boid, point::Point, vector::Vector, waypoint::Waypoint};
 use rand::Rng;
 
 #[derive(Clone)]
@@ -6,6 +6,8 @@ pub struct World {
     width: f32,
     height: f32,
     boids: Vec<Boid>,
+    waypoints: Vec<Waypoint>,
+    waypoint_index: usize,
 }
 
 struct Grid {
@@ -22,6 +24,7 @@ const FIELD_OF_VIEW: f32 = std::f32::consts::PI * 3.0 / 4.0;
 
 impl World {
     pub fn new(total_boids: u32, size: f32) -> World {
+        // Create boids
         let mut boids = Vec::new();
         let mut rng = rand::thread_rng();
         for i in 0..total_boids {
@@ -32,16 +35,32 @@ impl World {
             let vector = Vector {
                 dx: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
                 dy: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
-                // dx: 1_f32,
-                // dy: 1_f32,
             };
             boids.push(Boid::new(point, vector, i));
         }
+
+        // Create waypoints
+        let mut waypoints = Vec::new();
+        let xs: [f32; 3] = [300.0, 500.0, 400.0];
+        let ys: [f32; 3] = [300.0, 300.0, 550.0];
+
+        for i in 0..xs.len() {
+            let point = Point::new(
+                // rng.gen_range(20_f32..400_f32),
+                // rng.gen_range(20_f32..400_f32),
+                xs[i],
+                ys[i],
+            );
+            waypoints.push(Waypoint::new(point, 160_f64, i as f32));
+        }
+        let waypoint_index = 0;
 
         World {
             width: size,
             height: size,
             boids: boids,
+            waypoints: waypoints,
+            waypoint_index: waypoint_index,
         }
     }
 
@@ -93,5 +112,9 @@ impl World {
 
     pub fn get_boids(&self) -> Vec<Boid> {
         self.boids.clone()
+    }
+
+    pub fn get_waypoints(&self) -> Vec<Waypoint> {
+        self.waypoints.clone()
     }
 }
