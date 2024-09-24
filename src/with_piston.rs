@@ -9,8 +9,8 @@ mod world;
 use piston_window::*;
 use world::World;
 
-const NUM_BOIDS: u32 = 250;
-const SIZE: u32 = 600;
+const NUM_BOIDS: u32 = 100;
+const SIZE: u32 = 800;
 
 const BOID_BOD: &'static [[f64; 2]] = &[[5.0, 5.0], [10.0, 0.0], [5.0, 15.0], [0.0, 0.0]];
 

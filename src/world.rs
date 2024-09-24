@@ -14,7 +14,7 @@ struct Grid {
 }
 
 const MAX_VELOCITY: f32 = 2.0;
-const MIN_VELOCITY: f32 = 0.5;
+const MIN_VELOCITY: f32 = 1.9;
 
 const SIGHT: f32 = 25.0;
 const GRID_GAP: f32 = 8.0;
@@ -23,17 +23,17 @@ const FIELD_OF_VIEW: f32 = std::f32::consts::PI * 3.0 / 4.0;
 impl World {
     pub fn new(total_boids: u32, size: f32) -> World {
         let mut boids = Vec::new();
-        let step = size / total_boids as f32;
         let mut rng = rand::thread_rng();
         for i in 0..total_boids {
-            let v: f32 = i as f32 * step + 1f32;
             let point = Point::new(
-                rng.gen_range(MIN_VELOCITY..v),
-                rng.gen_range(MIN_VELOCITY..v),
+                rng.gen_range(5_f32..125_f32),
+                rng.gen_range(5_f32..125_f32),
             );
             let vector = Vector {
                 dx: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
                 dy: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
+                // dx: 1_f32,
+                // dy: 1_f32,
             };
             boids.push(Boid::new(point, vector, i));
         }
