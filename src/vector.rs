@@ -57,6 +57,13 @@ impl Vector {
         self.dy *= stretch;
     }
 
+    pub fn divide(&self, value: f32) -> Vector {
+        Vector {
+            dx: self.dx / value,
+            dy: self.dy / value,
+        }
+    }
+
     pub fn radial_distance(&self, other: Vector) -> f32 {
         let diff = (other.get_angle() - self.get_angle()).abs();
         let diff2 = PI_X_2 - diff;

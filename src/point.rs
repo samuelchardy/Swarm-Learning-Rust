@@ -62,6 +62,13 @@ impl Point {
         self.x += x;
         self.y += y;
     }
+
+    pub fn distance_to(&self, other: &Point) -> f32 {
+        let dx = self.x.abs() - other.x.abs();
+        let dy = self.y.abs() - other.y.abs();
+        let dist = dx.powi(2) + dy.powi(2);
+        dist.sqrt()
+    }
 }
 
 #[cfg(test)]

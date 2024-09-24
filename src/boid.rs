@@ -1,4 +1,4 @@
-use crate::{constants::PI_X_2, point::Point, vector::Vector};
+use crate::{constants::PI_X_2, point::Point, vector::Vector, waypoint::Waypoint};
 
 #[derive(Clone, Copy)]
 pub struct Boid {
@@ -42,22 +42,22 @@ impl Boid {
         self.point.clone()
     }
 
-    pub fn step(&mut self, seconds: f32, neighbors: Vec<Boid>) {
+    pub fn step(&mut self, seconds: f32, neighbors: Vec<Boid>, target_waypoint: Waypoint) {
+        let mut vectors: Vec<Vector> = Vec::new();
+        
         if neighbors.len() > 0 {
-            let mut vectors: Vec<Vector> = Vec::new();
-
             let mut separation = Vector::mean(
                 neighbors
                     .iter()
                     .map(|b| self.point.vector_to(&b.point))
                     .collect::<Vec<Vector>>(),
             );
-            separation.set_length(separation.get_length() + 15f32);
+            separation.set_length(separation.get_length() + 200f32);
             vectors.push(separation);
 
             let average_location =
                 Point::mean(neighbors.iter().map(|b| b.point).collect::<Vec<Point>>());
-            vectors.push(self.point.vector_to(&average_location));
+            vectors.push(self.point.vector_to(&average_location).divide(100_f32));
 
             let average_heading = Vector::mean(
                 neighbors
@@ -65,17 +65,19 @@ impl Boid {
                     .map(|b| {
                         let mut v = Vector { dx: 1f32, dy: 0f32 };
                         v.set_angle(b.vector.get_angle());
-                        v.set_length(25f32);
+                        v.set_length(10f32);
 
                         v
                     })
                     .collect::<Vec<Vector>>(),
             );
             vectors.push(average_heading);
-
-            let final_vector = Vector::mean(vectors);
-            self.turn_to(final_vector.get_angle(), 0.02f32);
         }
+        // Next waypoint vector
+        vectors.push(self.point.vector_to(&target_waypoint.point));
+
+        let final_vector = Vector::mean(vectors);
+        self.turn_to(final_vector.get_angle(), 0.04f32);
 
         self.step_forward(seconds);
     }

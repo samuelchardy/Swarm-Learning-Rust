@@ -11,12 +11,12 @@ use piston_window::*;
 use world::World;
 
 const NUM_BOIDS: u32 = 100;
-const SIZE: u32 = 800;
+const SIZE: u32 = 1000;
 
 const BOID_BOD: &'static [[f64; 2]] = &[[5.0, 5.0], [10.0, 0.0], [5.0, 15.0], [0.0, 0.0]];
 
 fn main() {
-    let mut the_flock = World::new(NUM_BOIDS, SIZE as f32);
+    let mut environment = World::new(NUM_BOIDS, SIZE as f32);
     println!(
         "=== Flock of Seaboids with Piston ===\n {} [version {}]",
         env!("CARGO_PKG_DESCRIPTION"),
@@ -33,7 +33,7 @@ fn main() {
             clear([1.0, 1.0, 1.0, 1.0], gfx);
 
             // Redraw the waypoints
-            let waypoints = the_flock.get_waypoints();
+            let waypoints = environment.get_waypoints();
             for i in 0..waypoints.len() {
                 let waypoint = waypoints[i];
                 let point = waypoint.get_point();
@@ -50,8 +50,8 @@ fn main() {
             }
 
             // Redraw the boids
-            the_flock.step(i);
-            let boids = the_flock.get_boids();
+            environment.step(i);
+            let boids = environment.get_boids();
             for i in 0..boids.len() {
                 let boid = boids[i];
                 let point = boid.get_point();

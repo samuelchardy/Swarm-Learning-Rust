@@ -65,10 +65,22 @@ impl World {
     }
 
     pub fn step(&mut self, seconds: f32) {
+
+        // Move the boids
         for i in 0..self.boids.len() {
             let mut boid = self.boids[i];
             let neighbors = self.clone().get_visible_neighbors(&boid);
-            boid.step(seconds, neighbors);
+
+            // Determine which waypoint boids should target
+            if boid.get_point().distance_to(&self.waypoints[self.waypoint_index].get_point()) < 10_f32 {
+                // println!("{}", self.waypoint_index);
+                if self.waypoint_index == self.waypoints.len()-1 {
+                    self.waypoint_index = 0;
+                } else {
+                    self.waypoint_index = self.waypoint_index + 1;
+                }
+            }
+            boid.step(seconds, neighbors, self.waypoints[self.waypoint_index]);
             boid.bound(self.width, self.height);
             self.boids[i] = boid;
         }
