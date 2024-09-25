@@ -10,7 +10,6 @@ See [Cargo.toml](Cargo.toml) version
 * [Piston](https://www.piston.rs/)
 
 ## Run
-Note: see [Cargo.toml](Cargo.toml) to swap between Tetra/Bevy due to conflicts of native libraries
 >      $ cargo run --bin with_piston
 
 Another Note: I chose _not_ to use [Cargo Workspaces](https://doc.rust-lang.org/cargo/reference/workspaces.html) due to the format of the video and to keep the code simple and concise.
