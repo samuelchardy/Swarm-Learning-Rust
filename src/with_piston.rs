@@ -7,6 +7,7 @@ mod vector;
 mod world;
 mod waypoint;
 mod target;
+mod agent;
 
 use piston_window::*;
 use world::World;

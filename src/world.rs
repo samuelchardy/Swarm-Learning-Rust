@@ -1,5 +1,5 @@
 use crate::{boid::Boid, point::Point, vector::Vector, waypoint::Waypoint,
-            target::Target};
+            target::Target, agent::Agent};
 use rand::Rng;
 
 #[derive(Clone)]
@@ -10,6 +10,7 @@ pub struct World {
     target: Target,
     waypoints: Vec<Waypoint>,
     waypoint_index: usize,
+    agent: Agent,
 }
 
 struct Grid {
@@ -64,6 +65,14 @@ impl World {
         }
         let waypoint_index = 0;
 
+        // Create agent
+        let point = Point::new(1150.0, 450.0);
+        let vector = Vector {
+            dx: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
+            dy: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
+        };
+        let agent = Agent::new(point, vector);
+
         World {
             width: size,
             height: size,
@@ -71,6 +80,7 @@ impl World {
             waypoints: waypoints,
             waypoint_index: waypoint_index,
             target: target,
+            agent: agent,
         }
     }
 
