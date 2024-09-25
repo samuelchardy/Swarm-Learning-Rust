@@ -64,12 +64,12 @@ impl Vector {
         }
     }
 
-    pub fn radial_distance(&self, other: Vector) -> f32 {
-        let diff = (other.get_angle() - self.get_angle()).abs();
-        let diff2 = PI_X_2 - diff;
+    // pub fn radial_distance(&self, other: Vector) -> f32 {
+    //     let diff = (other.get_angle() - self.get_angle()).abs();
+    //     let diff2 = PI_X_2 - diff;
 
-        return diff.min(diff2);
-    }
+    //     return diff.min(diff2);
+    // }
 }
 
 #[cfg(test)]

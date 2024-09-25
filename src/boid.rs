@@ -52,7 +52,7 @@ impl Boid {
                     .map(|b| self.point.vector_to(&b.point))
                     .collect::<Vec<Vector>>(),
             );
-            separation.set_length(separation.get_length() + 200f32);
+            separation.set_length(separation.get_length() + 250f32);
             vectors.push(separation);
 
             let average_location =
@@ -65,8 +65,7 @@ impl Boid {
                     .map(|b| {
                         let mut v = Vector { dx: 1f32, dy: 0f32 };
                         v.set_angle(b.vector.get_angle());
-                        v.set_length(10f32);
-
+                        v.set_length(20f32);
                         v
                     })
                     .collect::<Vec<Vector>>(),

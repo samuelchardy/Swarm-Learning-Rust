@@ -19,11 +19,11 @@ struct Grid {
 }
 
 const MAX_VELOCITY: f32 = 2.0;
-const MIN_VELOCITY: f32 = 1.9;
+const MIN_VELOCITY: f32 = 1.5;
 
-const SIGHT: f32 = 25.0;
-const GRID_GAP: f32 = 8.0;
-const FIELD_OF_VIEW: f32 = std::f32::consts::PI * 3.0 / 4.0;
+const SIGHT: f32 = 10.0;
+const GRID_GAP: f32 = 50.0;
+// const FIELD_OF_VIEW: f32 = std::f32::consts::PI * 3.0 / 4.0;
 
 impl World {
     pub fn new(total_boids: u32, size: f32) -> World {
@@ -152,9 +152,9 @@ impl World {
                     return false;
                 }
 
-                if vector.radial_distance(boid.vector) > FIELD_OF_VIEW {
-                    return false;
-                }
+                // if vector.radial_distance(boid.vector) > FIELD_OF_VIEW {
+                //     return false;
+                // }
 
                 true
             })
