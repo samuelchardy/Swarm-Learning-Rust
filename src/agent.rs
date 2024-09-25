@@ -1,4 +1,4 @@
-use crate::{constants::PI_X_2, point::Point, vector::Vector, target::Target, boid::Boid};
+use crate::{constants::PI_X_2, point::Point, vector::Vector, target::Target};
 
 #[derive(Clone, Copy)]
 pub struct Agent {
