@@ -1,4 +1,5 @@
-use crate::{boid::Boid, point::Point, vector::Vector, waypoint::Waypoint};
+use crate::{boid::Boid, point::Point, vector::Vector, waypoint::Waypoint,
+            target::Target};
 use rand::Rng;
 
 #[derive(Clone)]
@@ -6,6 +7,7 @@ pub struct World {
     width: f32,
     height: f32,
     boids: Vec<Boid>,
+    target: Target,
     waypoints: Vec<Waypoint>,
     waypoint_index: usize,
 }
@@ -24,6 +26,13 @@ const FIELD_OF_VIEW: f32 = std::f32::consts::PI * 3.0 / 4.0;
 
 impl World {
     pub fn new(total_boids: u32, size: f32) -> World {
+        // Create target
+        let point = Point::new(
+            400_f32,
+            400_f32,
+        );
+        let target = Target::new(point);
+
         // Create boids
         let mut boids = Vec::new();
         let mut rng = rand::thread_rng();
@@ -61,6 +70,7 @@ impl World {
             boids: boids,
             waypoints: waypoints,
             waypoint_index: waypoint_index,
+            target: target,
         }
     }
 
@@ -124,6 +134,10 @@ impl World {
 
     pub fn get_boids(&self) -> Vec<Boid> {
         self.boids.clone()
+    }
+
+    pub fn get_target(&self) -> Target {
+        self.target.clone()
     }
 
     pub fn get_waypoints(&self) -> Vec<Waypoint> {

@@ -6,6 +6,7 @@ mod point;
 mod vector;
 mod world;
 mod waypoint;
+mod target;
 
 use piston_window::*;
 use world::World;
@@ -14,6 +15,7 @@ const NUM_BOIDS: u32 = 100;
 const SIZE: u32 = 1000;
 
 const BOID_BOD: &'static [[f64; 2]] = &[[5.0, 5.0], [10.0, 0.0], [5.0, 15.0], [0.0, 0.0]];
+const TARGET_BOD: &'static [[f64; 2]] = &[[0.0, 0.0], [10.0, 0.0], [10.0, 10.0], [0.0, 10.0]];
 
 fn main() {
     let mut environment = World::new(NUM_BOIDS, SIZE as f32);
@@ -48,6 +50,15 @@ fn main() {
                             width, width];
                 ellipse(waypoint.color, rect, transform, gfx);
             }
+
+            // redraw the target
+            let target = environment.get_target();
+            let point = target.get_point();
+            let transform = context
+                    .transform
+                    .trans(point.get_x() as f64, point.get_y() as f64)
+                    .rot_rad(0 as f64);
+            polygon(target.color, TARGET_BOD, transform, gfx);
 
             // Redraw the boids
             environment.step(i);
