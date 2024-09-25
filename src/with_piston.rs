@@ -32,8 +32,11 @@ fn main() {
 
     let i = 1.1;
     while let Some(e) = window.next() {
+        let mut game_over = 0_i8;
+
         window.draw_2d(&e, |context, gfx, _| {
             clear([1.0, 1.0, 1.0, 1.0], gfx);
+            game_over = environment.step(i);
 
             // Redraw the waypoints
             let waypoints = environment.get_waypoints();
@@ -62,7 +65,6 @@ fn main() {
             polygon(target.color, TARGET_BOD, transform, gfx);
 
             // Redraw the boids
-            environment.step(i);
             let boids = environment.get_boids();
             for i in 0..boids.len() {
                 let boid = boids[i];
@@ -86,5 +88,9 @@ fn main() {
 
             polygon(agent.color, BOID_BOD, transform, gfx);
         });
+
+        if game_over != 0_i8 {
+            break;
+        }
     }
 }

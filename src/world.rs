@@ -84,7 +84,21 @@ impl World {
         }
     }
 
-    pub fn step(&mut self, seconds: f32) {
+    pub fn step(&mut self, seconds: f32) -> i8 {
+        // Check if agent is to close to a boid
+        for i in 0..self.boids.len() {
+            let boid = self.boids[i];
+            if boid.get_point().distance_to(&self.agent.get_point()) < 9_f32 {
+                println!("FAIL: AGENT HIT SWARM!");
+                return -1_i8;
+            }
+        }
+
+        // Check if agent is at the target
+        if self.agent.get_point().distance_to(&self.target.get_point()) < 5_f32 {
+            println!("SUCCESS: AGENT REACHED THE TARGET!");
+            return 1_i8;
+        }
 
         // Move the boids
         for i in 0..self.boids.len() {
@@ -107,6 +121,8 @@ impl World {
 
         // Move the agent
         self.agent.step(seconds, self.target);
+
+        return 0_i8;
     }
 
     pub fn get_visible_neighbors(&self, boid: &Boid) -> Vec<Boid> {
