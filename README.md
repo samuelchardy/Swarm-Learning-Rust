@@ -1,9 +1,8 @@
 # rust-flock-of-boids
 ## Description
-A fork of camsjams/rust-flock-of-boids designed to replicate an existing swarm and target problem written in java.
+A fork of camsjams/rust-flock-of-boids designed to replicate an existing swarm and target problem written in java. 
 
-## Version
-See [Cargo.toml](Cargo.toml) version
+A swarm of boids moves between waypoints in a bounded environment. An independent agent acts ad-hoc with limited knowledge other than the positive and negative stimuli provided from the target and swarm respectively. The agent only knows these stimuli if it can simulate reaching them, and based on these simulations must take actions assumed to help it reach the target.
 
 ## Platforms / Technologies
 * [Rust](https://www.rust-lang.org/en-US/)
@@ -12,7 +11,8 @@ See [Cargo.toml](Cargo.toml) version
 ## Run
 >      $ cargo run --bin with_piston
 
-Another Note: I chose _not_ to use [Cargo Workspaces](https://doc.rust-lang.org/cargo/reference/workspaces.html) due to the format of the video and to keep the code simple and concise.
-
 ## Build For Release
 >      $ cargo build --bin with_piston --release
+
+## Entity Relationships
+![](images/ent.png)
