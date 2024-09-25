@@ -74,6 +74,17 @@ fn main() {
 
                 polygon(boid.color, BOID_BOD, transform, gfx);
             }
+
+            // Move and draw the agent
+            let agent = environment.get_agent();
+            //move agent
+            let point = agent.get_point();
+            let transform = context
+                .transform
+                .trans(point.get_x() as f64, point.get_y() as f64)
+                .rot_rad(-1.57075 + agent.get_angle() as f64);
+
+            polygon(agent.color, BOID_BOD, transform, gfx);
         });
     }
 }

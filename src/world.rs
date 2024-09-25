@@ -66,7 +66,7 @@ impl World {
         let waypoint_index = 0;
 
         // Create agent
-        let point = Point::new(1150.0, 450.0);
+        let point = Point::new(950.0, 850.0);
         let vector = Vector {
             dx: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
             dy: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
@@ -104,6 +104,9 @@ impl World {
             boid.bound(self.width, self.height);
             self.boids[i] = boid;
         }
+
+        // Move the agent
+        self.agent.step(seconds, self.target);
     }
 
     pub fn get_visible_neighbors(&self, boid: &Boid) -> Vec<Boid> {
@@ -152,5 +155,9 @@ impl World {
 
     pub fn get_waypoints(&self) -> Vec<Waypoint> {
         self.waypoints.clone()
+    }
+
+    pub fn get_agent(&self) -> Agent {
+        self.agent.clone()
     }
 }
