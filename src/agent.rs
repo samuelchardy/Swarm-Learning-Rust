@@ -17,4 +17,16 @@ impl Agent {
             color: AGENT_COLOR,
         }
     }
+
+    pub fn get_point(self) -> Point {
+        self.point.clone()
+    }
+
+    pub fn get_angle(&self) -> f32 {
+        self.vector.get_angle()
+    }
+
+    pub fn set_angle(&mut self, angle: f32) {
+        self.vector.set_angle(angle);
+    }
 }
