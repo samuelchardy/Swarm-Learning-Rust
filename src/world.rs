@@ -25,6 +25,52 @@ const SIGHT: f32 = 10.0;
 const GRID_GAP: f32 = 50.0;
 // const FIELD_OF_VIEW: f32 = std::f32::consts::PI * 3.0 / 4.0;
 
+
+fn create_boids(total_boids: u32) -> Vec<Boid> {
+    let mut boids = Vec::new();
+    let mut rng = rand::thread_rng();
+    for i in 0..total_boids {
+        let point = Point::new(
+            rng.gen_range(5_f32..125_f32),
+            rng.gen_range(5_f32..125_f32),
+        );
+        let vector = Vector {
+            dx: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
+            dy: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
+        };
+        boids.push(Boid::new(point, vector, i));
+    }
+    boids
+}
+
+fn create_waypoints() -> Vec<Waypoint> {
+    let mut waypoints = Vec::new();
+    let xs: [f32; 3] = [300.0, 500.0, 400.0];
+    let ys: [f32; 3] = [300.0, 300.0, 550.0];
+
+    for i in 0..xs.len() {
+        let point = Point::new(
+            // rng.gen_range(20_f32..400_f32),
+            // rng.gen_range(20_f32..400_f32),
+            xs[i],
+            ys[i],
+        );
+        waypoints.push(Waypoint::new(point, 160_f64, i as f32));
+    }
+    waypoints
+}
+
+fn create_agent() -> Agent {
+    let mut rng = rand::thread_rng();
+    let point = Point::new(950.0, 850.0);
+    let vector = Vector {
+        dx: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
+        dy: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
+    };
+    let agent = Agent::new(point, vector);
+    agent
+}
+
 impl World {
     pub fn new(total_boids: u32, size: f32) -> World {
         // Create target
@@ -35,43 +81,14 @@ impl World {
         let target = Target::new(point);
 
         // Create boids
-        let mut boids = Vec::new();
-        let mut rng = rand::thread_rng();
-        for i in 0..total_boids {
-            let point = Point::new(
-                rng.gen_range(5_f32..125_f32),
-                rng.gen_range(5_f32..125_f32),
-            );
-            let vector = Vector {
-                dx: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
-                dy: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
-            };
-            boids.push(Boid::new(point, vector, i));
-        }
+        let boids = create_boids(total_boids);
 
         // Create waypoints
-        let mut waypoints = Vec::new();
-        let xs: [f32; 3] = [300.0, 500.0, 400.0];
-        let ys: [f32; 3] = [300.0, 300.0, 550.0];
-
-        for i in 0..xs.len() {
-            let point = Point::new(
-                // rng.gen_range(20_f32..400_f32),
-                // rng.gen_range(20_f32..400_f32),
-                xs[i],
-                ys[i],
-            );
-            waypoints.push(Waypoint::new(point, 160_f64, i as f32));
-        }
+        let waypoints = create_waypoints();
         let waypoint_index = 0;
 
         // Create agent
-        let point = Point::new(950.0, 850.0);
-        let vector = Vector {
-            dx: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
-            dy: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
-        };
-        let agent = Agent::new(point, vector);
+        let agent = create_agent();
 
         World {
             width: size,
