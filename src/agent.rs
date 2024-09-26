@@ -7,7 +7,7 @@ pub struct Agent {
     pub color: [f32; 4],
 }
 
-const AGENT_COLOR: [f32; 4] = [0.05, 0.05, 0.95, 0.95];
+const AGENT_COLOR: [f32; 4] = [0.95, 0.05, 0.05, 0.95];
 
 impl Agent {
     pub fn new(point: Point, vector: Vector) -> Agent {

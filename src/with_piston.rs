@@ -35,7 +35,7 @@ fn main() {
         let mut game_over = 0_i8;
 
         window.draw_2d(&e, |context, gfx, _| {
-            clear([1.0, 1.0, 1.0, 1.0], gfx);
+            clear([0.2, 0.2, 0.2, 1.0], gfx);
             game_over = environment.step(i);
 
             // Redraw the waypoints

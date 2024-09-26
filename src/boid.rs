@@ -8,7 +8,7 @@ pub struct Boid {
     pub color: [f32; 4],
 }
 
-const BOID_COLOR: [f32; 4] = [0.05, 0.05, 0.05, 0.7];
+const BOID_COLOR: [f32; 4] = [0.65, 0.65, 0.65, 0.9];
 
 impl Boid {
     pub fn new(point: Point, vector: Vector, id: u32) -> Boid {
