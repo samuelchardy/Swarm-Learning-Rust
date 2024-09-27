@@ -1,4 +1,5 @@
-use crate::{constants::PI_X_2, point::Point, vector::Vector, target::Target, boid::Boid, agent::Agent};
+use crate::{constants::PI_X_2, point::Point, target::Target, boid::Boid, agent::Agent};
+use rand::Rng;
 
 #[derive(Clone, Copy)]
 pub struct Simulation {

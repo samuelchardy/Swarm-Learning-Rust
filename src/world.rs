@@ -1,5 +1,5 @@
 use crate::{boid::Boid, point::Point, vector::Vector, waypoint::Waypoint,
-            target::Target, agent::Agent};
+            target::Target, agent::Agent, simulation::Simulation};
 use rand::Rng;
 
 #[derive(Clone)]
@@ -64,8 +64,10 @@ fn create_agent() -> Agent {
     let mut rng = rand::thread_rng();
     let point = Point::new(950.0, 850.0);
     let vector = Vector {
-        dx: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
-        dy: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
+        dx: -2.0,
+        dy: -2.0,
+        // dx: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
+        // dy: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
     };
     let agent = Agent::new(point, vector);
     agent

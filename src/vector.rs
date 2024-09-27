@@ -64,6 +64,12 @@ impl Vector {
         }
     }
 
+    pub fn print(self) {
+        let _dx = self.dx;
+        let _dy = self.dy;
+        println!("{_dx} {_dy}");
+    }
+
     // pub fn radial_distance(&self, other: Vector) -> f32 {
     //     let diff = (other.get_angle() - self.get_angle()).abs();
     //     let diff2 = PI_X_2 - diff;

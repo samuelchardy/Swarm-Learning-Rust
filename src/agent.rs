@@ -54,5 +54,9 @@ impl Agent {
         let final_vector = self.point.vector_to(&target.point);
         self.turn_to(final_vector.get_angle(), 0.04f32);
         self.step_forward(seconds);
+        self.vector.print();
+        let out = self.get_angle();
+        println!("{out}");
+        println!();
     }
 }
