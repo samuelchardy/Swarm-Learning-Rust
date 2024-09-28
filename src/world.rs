@@ -62,7 +62,7 @@ fn create_waypoints() -> Vec<Waypoint> {
 
 fn create_agent() -> Agent {
     let mut rng = rand::thread_rng();
-    let point = Point::new(450.0, 500.0);
+    let point = Point::new(450.0, 600.0);
     let vector = Vector {
         dx: -2.0,
         dy: -2.0,

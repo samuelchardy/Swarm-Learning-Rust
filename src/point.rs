@@ -48,8 +48,8 @@ impl Point {
     }
 
     pub fn distance_to(&self, other: &Point) -> f32 {
-        let dx = self.x.abs() - other.x.abs();
-        let dy = self.y.abs() - other.y.abs();
+        let dx = self.x - other.x;
+        let dy = self.y - other.y;
         let dist = dx.powi(2) + dy.powi(2);
         dist.sqrt()
     }

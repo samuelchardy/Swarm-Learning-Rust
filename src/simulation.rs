@@ -15,7 +15,7 @@ impl Simulation {
    
     pub fn sim_reward(&mut self, seconds: f32, mut agent: Agent, target: Target,
                         swarm_com: Point) -> i8 {
-            for _i in 0..100 {
+            for _i in 0..1000 {
                 agent.step_forward(seconds);
                 if agent.point.distance_to(&swarm_com) < 50.0 {
                     return -1_i8;
@@ -30,6 +30,13 @@ impl Simulation {
 
     pub fn find_move(&mut self, seconds: f32, mut agent: Agent, target:
                         Target, swarm: Vec<Boid>) -> f32 { 
+        let _x = target.point.get_x();
+        let _y = target.point.get_y();
+
+        let a_x = agent.point.get_x();
+        let a_y = agent.point.get_y();
+        println!("{_x} {_y}     {a_x} {a_y}");
+
         let mut rng = StepRng::new(2, 25);
         let mut irs = Irs::default();
         let mut swarm_com = Point::mean(
@@ -69,9 +76,9 @@ impl Simulation {
         }
 
         let reward_big = rewards[largest_ind];
-        let reward_act = angles[largest_ind];
+        let reward_act = agent.get_angle()-angles[largest_ind];
         println!("{reward_big} {reward_act}");
         // println!("{reward_act}");
-        return agent.get_angle()-angles[largest_ind];
+        return reward_act;
     }
 }
