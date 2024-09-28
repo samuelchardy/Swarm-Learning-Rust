@@ -64,6 +64,7 @@ impl Vector {
         }
     }
 
+    #[allow(dead_code)]
     pub fn print(self) {
         let _dx = self.dx;
         let _dy = self.dy;

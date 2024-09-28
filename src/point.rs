@@ -35,22 +35,6 @@ impl Point {
         self.y
     }
 
-    pub fn bound(&mut self, width: f32, height: f32) {
-        let mut x = self.x % width;
-        let mut y = self.y % height;
-
-        if x < 0.0 {
-            x += width;
-        }
-
-        if y < 0.0 {
-            y += height;
-        }
-
-        self.x = x;
-        self.y = y;
-    }
-
     pub fn vector_to(&self, other: &Point) -> Vector {
         Vector {
             dx: other.x - self.x,

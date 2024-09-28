@@ -1,4 +1,5 @@
 extern crate rand;
+extern crate shuffle;
 
 mod boid;
 mod constants;

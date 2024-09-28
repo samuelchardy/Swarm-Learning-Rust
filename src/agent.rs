@@ -1,4 +1,4 @@
-use crate::{constants::PI_X_2, point::Point, vector::Vector, target::Target};
+use crate::{constants::PI_X_2, point::Point, vector::Vector, target::Target, rand::Rng};
 
 #[derive(Clone, Copy)]
 pub struct Agent {
@@ -50,8 +50,15 @@ impl Agent {
         self.point.move_forward(x, y);
     }
 
+    #[allow(dead_code)]
     pub fn step(&mut self, seconds: f32, target: Target) {
-        let final_vector = self.point.vector_to(&target.point);
+        let mut rng = rand::thread_rng();
+        let random_point = Point::new(
+            rng.gen_range(0_f32..1000_f32),
+            rng.gen_range(0_f32..1000_f32),
+        );
+
+        let final_vector = self.point.vector_to(&random_point);
         self.turn_to(final_vector.get_angle(), 0.04f32);
         self.step_forward(seconds);
         self.vector.print();
@@ -59,4 +66,12 @@ impl Agent {
         println!("{out}");
         println!();
     }
+
+    pub fn step_plan(&mut self, seconds: f32, new_angle: f32) {     
+        self.turn_to(new_angle, 0.04f32);
+        self.step_forward(seconds);
+        // let out = self.get_angle();
+        // println!("{out}");
+    }
+
 }

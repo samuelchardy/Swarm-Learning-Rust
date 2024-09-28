@@ -62,7 +62,7 @@ fn create_waypoints() -> Vec<Waypoint> {
 
 fn create_agent() -> Agent {
     let mut rng = rand::thread_rng();
-    let point = Point::new(950.0, 850.0);
+    let point = Point::new(950.0, 450.0);
     let vector = Vector {
         dx: -2.0,
         dy: -2.0,
@@ -107,14 +107,14 @@ impl World {
         // Check if agent is to close to a boid
         for i in 0..self.boids.len() {
             let boid = self.boids[i];
-            if boid.get_point().distance_to(&self.agent.get_point()) < 9_f32 {
+            if boid.get_point().distance_to(&self.agent.get_point()) < 15_f32 {
                 println!("FAIL: AGENT HIT SWARM!");
                 return -1_i8;
             }
         }
 
         // Check if agent is at the target
-        if self.agent.get_point().distance_to(&self.target.get_point()) < 5_f32 {
+        if self.agent.get_point().distance_to(&self.target.get_point()) < 10_f32 {
             println!("SUCCESS: AGENT REACHED THE TARGET!");
             return 1_i8;
         }
@@ -134,12 +134,20 @@ impl World {
                 }
             }
             boid.step(seconds, neighbors, self.waypoints[self.waypoint_index]);
-            boid.bound(self.width, self.height);
+            // boid.bound(self.width, self.height);
             self.boids[i] = boid;
         }
+        // Create simulation
+        let mut sim = Simulation::new();
+        let new_angle = sim.find_move(seconds, self.agent.clone(), self.target.clone(),
+                                        self.boids.clone());
+
+
+
+        self.agent.step_plan(seconds, new_angle);
 
         // Move the agent
-        self.agent.step(seconds, self.target);
+        // self.agent.step(seconds, self.target);
 
         return 0_i8;
     }

@@ -20,10 +20,6 @@ impl Boid {
         }
     }
 
-    pub fn bound(&mut self, width: f32, height: f32) {
-        self.point.bound(width, height);
-    }
-
     pub fn get_angle(&self) -> f32 {
         self.vector.get_angle()
     }
