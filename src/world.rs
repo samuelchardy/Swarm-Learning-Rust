@@ -46,8 +46,8 @@ fn create_boids(total_boids: u32) -> Vec<Boid> {
 
 fn create_waypoints() -> Vec<Waypoint> {
     let mut waypoints = Vec::new();
-    let xs: [f32; 3] = [300.0, 500.0, 400.0];
-    let ys: [f32; 3] = [300.0, 300.0, 550.0];
+    let xs: [f32; 3] = [250.0, 550.0, 400.0];
+    let ys: [f32; 3] = [250.0, 250.0, 550.0];
 
     for i in 0..xs.len() {
         let point = Point::new(
@@ -63,7 +63,7 @@ fn create_waypoints() -> Vec<Waypoint> {
 
 fn create_agent() -> Agent {
     // let rng = rand::thread_rng();
-    let point = Point::new(800.0, 650.0);
+    let point = Point::new(950.0, 950.0);
     let vector = Vector {
         dx: -2.0,
         dy: -2.0,

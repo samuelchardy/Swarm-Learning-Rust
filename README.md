@@ -14,7 +14,7 @@ A swarm of boids moves between waypoints in a bounded environment. An independen
 ## Build For Release
 >      $ cargo build --bin with_piston --release
 
-## Visuals
+## Example: Monte-Carlo Rollouts
 ![](images/running.gif)
 
 ## Entity Relationships

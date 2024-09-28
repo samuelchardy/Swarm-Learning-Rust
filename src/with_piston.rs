@@ -14,7 +14,7 @@ mod simulation;
 use piston_window::*;
 use world::World;
 
-const NUM_BOIDS: u32 = 1;
+const NUM_BOIDS: u32 = 100;
 const SIZE: u32 = 1000;
 
 const BOID_BOD: &'static [[f64; 2]] = &[[5.0, 5.0], [10.0, 0.0], [5.0, 15.0], [0.0, 0.0]];
@@ -62,7 +62,7 @@ fn main() {
             let point = target.get_point();
             let transform = context
                     .transform
-                    .trans((point.get_x() as f64) - 10.0, (point.get_y() as f64) - 10.0)
+                    .trans(point.get_x() as f64, point.get_y() as f64)
                     .rot_rad(0 as f64);
             polygon(target.color, TARGET_BOD, transform, gfx);
 
@@ -73,7 +73,7 @@ fn main() {
                 let point = boid.get_point();
                 let transform = context
                     .transform
-                    .trans((point.get_x() as f64) - 10.0, (point.get_y() as f64) -15.0)
+                    .trans(point.get_x() as f64, point.get_y() as f64)
                     .rot_rad(-1.57075 + boid.get_angle() as f64);
 
                 polygon(boid.color, BOID_BOD, transform, gfx);
