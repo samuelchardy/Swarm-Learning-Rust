@@ -15,9 +15,9 @@ impl Simulation {
    
     pub fn sim_reward(&mut self, seconds: f32, mut agent: Agent, target: Target,
                         swarm_com: Point) -> i8 {
-            for _i in 0..500 {
+            for _i in 0..100 {
                 agent.step_forward(seconds);
-                if agent.point.distance_to(&swarm_com) < 100.0 {
+                if agent.point.distance_to(&swarm_com) < 50.0 {
                     return -1_i8;
                 }
 
@@ -30,6 +30,8 @@ impl Simulation {
 
     pub fn find_move(&mut self, seconds: f32, mut agent: Agent, target:
                         Target, swarm: Vec<Boid>) -> f32 { 
+        let mut rng = StepRng::new(2, 25);
+        let mut irs = Irs::default();
         let mut swarm_com = Point::mean(
             swarm
                 .iter()
@@ -37,13 +39,18 @@ impl Simulation {
                 .collect::<Vec<Point>>(),
         );
 
-        let mut pi = 3.14;
-        let mut angles = vec![-pi/2.0, -pi/2.11, -pi/2.22, -pi/2.33, -pi/2.44, -pi/2.55,
-                            -pi/2.66, -pi/2.77, -pi/2.88, -pi/2.99, -pi/3.10,
-                            pi/3.10, pi/2.99, pi/2.88, pi/2.77, pi/2.66, pi/2.55,
-                            pi/2.44, pi/2.33, pi/2.22, pi/2.11, pi/2.0];
-        let mut rng = StepRng::new(2, 13);
-        let mut irs = Irs::default();
+        let mut pi = 3.1;
+        let mut angles = Vec::<f32>::new();
+        let interval = 0.1;
+        let num_actions_half = (pi/interval) as u8;
+
+        for i in 0..num_actions_half {
+            angles.push(-pi+(i as f32 *interval));
+        }
+        
+        for i in 0..num_actions_half {
+            angles.push(pi-(i as f32 *interval));
+        }
 
         irs.shuffle(&mut angles, &mut rng);
         let mut rewards = Vec::new();
@@ -62,7 +69,9 @@ impl Simulation {
         }
 
         let reward_big = rewards[largest_ind];
-        println!("{reward_big}");
-        return angles[largest_ind];
+        let reward_act = angles[largest_ind];
+        println!("{reward_big} {reward_act}");
+        // println!("{reward_act}");
+        return agent.get_angle()-angles[largest_ind];
     }
 }

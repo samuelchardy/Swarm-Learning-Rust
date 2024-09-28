@@ -62,7 +62,7 @@ fn create_waypoints() -> Vec<Waypoint> {
 
 fn create_agent() -> Agent {
     let mut rng = rand::thread_rng();
-    let point = Point::new(950.0, 450.0);
+    let point = Point::new(450.0, 500.0);
     let vector = Vector {
         dx: -2.0,
         dy: -2.0,
@@ -107,14 +107,16 @@ impl World {
         // Check if agent is to close to a boid
         for i in 0..self.boids.len() {
             let boid = self.boids[i];
-            if boid.get_point().distance_to(&self.agent.get_point()) < 15_f32 {
+            if boid.get_point().distance_to(&self.agent.get_point()) < 12_f32 {
                 println!("FAIL: AGENT HIT SWARM!");
                 return -1_i8;
             }
         }
 
-        // Check if agent is at the target
-        if self.agent.get_point().distance_to(&self.target.get_point()) < 10_f32 {
+        // // Check if agent is at the target
+        // let p = self.agent.get_point().distance_to(&self.target.get_point());
+        // println!("{p}");
+        if self.agent.get_point().distance_to(&self.target.get_point()) <= 10_f32 {
             println!("SUCCESS: AGENT REACHED THE TARGET!");
             return 1_i8;
         }
