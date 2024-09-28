@@ -1,4 +1,4 @@
-use crate::{constants::PI_X_2, point::Point, target::Target, boid::Boid, agent::Agent};
+use crate::{point::Point, target::Target, boid::Boid, agent::Agent};
 // use rand::Rng;
 use shuffle::shuffler::Shuffler;
 use shuffle::irs::Irs;
@@ -28,25 +28,18 @@ impl Simulation {
             return 0_i8;
         }
 
-    pub fn find_move(&mut self, seconds: f32, mut agent: Agent, target:
+    pub fn find_move(&mut self, seconds: f32, agent: Agent, target:
                         Target, swarm: Vec<Boid>) -> f32 { 
-        let _x = target.point.get_x();
-        let _y = target.point.get_y();
-
-        let a_x = agent.point.get_x();
-        let a_y = agent.point.get_y();
-        println!("{_x} {_y}     {a_x} {a_y}");
-
         let mut rng = StepRng::new(2, 25);
         let mut irs = Irs::default();
-        let mut swarm_com = Point::mean(
+        let swarm_com = Point::mean(
             swarm
                 .iter()
                 .map(|b| b.point)
                 .collect::<Vec<Point>>(),
         );
 
-        let mut pi = 3.1;
+        let pi = 4.5;
         let mut angles = Vec::<f32>::new();
         let interval = 0.1;
         let num_actions_half = (pi/interval) as u8;
@@ -66,7 +59,7 @@ impl Simulation {
 
         for i in 0..angles.len() {
             let mut agent_sim = agent;
-            agent_sim.turn_to(agent_sim.get_angle()-angles[i], 0.04f32);
+            agent_sim.turn_to(agent_sim.get_angle()-angles[i], 1.0f32);
             let sim_reward_val = self.sim_reward(seconds, agent_sim, target, swarm_com);
             rewards.push(sim_reward_val);
 

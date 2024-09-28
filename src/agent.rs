@@ -1,4 +1,4 @@
-use crate::{constants::PI_X_2, point::Point, vector::Vector, target::Target, rand::Rng};
+use crate::{constants::PI_X_2, point::Point, vector::Vector, rand::Rng};
 
 #[derive(Clone, Copy)]
 pub struct Agent {
@@ -51,7 +51,7 @@ impl Agent {
     }
 
     #[allow(dead_code)]
-    pub fn step(&mut self, seconds: f32, target: Target) {
+    pub fn step(&mut self, seconds: f32) {
         let mut rng = rand::thread_rng();
         let random_point = Point::new(
             rng.gen_range(0_f32..1000_f32),

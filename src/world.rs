@@ -2,6 +2,7 @@ use crate::{boid::Boid, point::Point, vector::Vector, waypoint::Waypoint,
             target::Target, agent::Agent, simulation::Simulation};
 use rand::Rng;
 
+#[allow(dead_code)]
 #[derive(Clone)]
 pub struct World {
     width: f32,
@@ -61,8 +62,8 @@ fn create_waypoints() -> Vec<Waypoint> {
 }
 
 fn create_agent() -> Agent {
-    let mut rng = rand::thread_rng();
-    let point = Point::new(450.0, 600.0);
+    // let rng = rand::thread_rng();
+    let point = Point::new(800.0, 650.0);
     let vector = Vector {
         dx: -2.0,
         dy: -2.0,
