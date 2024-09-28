@@ -19,3 +19,6 @@ A swarm of boids moves between waypoints in a bounded environment. An independen
 
 ## Entity Relationships
 ![](images/ent.png)
+
+## Progress & Feature Monitoring
+* [Kanban Board](https://trello.com/invite/b/66f84e534be5d3e8125dffe5/ATTId495407ba4359e1db183dd4fc398cdea729E8BAF/swarm-learning-rust)
