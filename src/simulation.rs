@@ -6,17 +6,31 @@ use rand::rngs::mock::StepRng;
 
 #[derive(Clone, Copy)]
 pub struct Simulation {
+    pub non_zero_counter: u16,
 }
 
 impl Simulation {
     pub fn new() -> Simulation {
-        Simulation {}
+        let non_zero_counter = 0_u16;
+        Simulation {
+            non_zero_counter,
+        }
     }
    
+    pub fn calc_rollout_depth(self) -> u16 {
+        let mut term_2 = (250.0 * (1.2_f32.powf(self.non_zero_counter as f32)).round()) as u16;
+        if term_2 > 1000 {
+            term_2 = 1000;
+        }
+        let depth = 1250 - term_2;
+        depth
+    }
+
     pub fn sim_reward(&mut self, seconds: f32, mut agent: Agent, target: Target,
-                    swarm_com: &Point, average_heading: &Vector) -> i8 {
+                    swarm_com: &Point, average_heading: &Vector, rollout_depth: u16) -> i8 {
         let mut swarm_com_sim = swarm_com.clone();
-        for _i in 0..1000 {
+
+        for _i in 0..rollout_depth {
             // Simulate moving the swarm
             let x = average_heading.dx * 0.04;
             let y = average_heading.dy * 0.04;
@@ -59,11 +73,13 @@ impl Simulation {
         swarm_com: &Point, average_heading: &Vector, angles: Vec<f32>) -> f32 {
         let mut rewards = Vec::new();
         let mut largest_ind = 0;
+        let rollout_depth = self.calc_rollout_depth();
+        println!("{rollout_depth}");
 
         for i in 0..angles.len() {
             let mut agent_sim = agent;
             agent_sim.turn_to(agent_sim.get_angle()-angles[i], 1.0f32);
-            let sim_reward_val = self.sim_reward(seconds, agent_sim, target, &swarm_com, &average_heading);
+            let sim_reward_val = self.sim_reward(seconds, agent_sim, target, &swarm_com, &average_heading, rollout_depth);
             rewards.push(sim_reward_val);
 
             if sim_reward_val > rewards[largest_ind] {
@@ -73,7 +89,14 @@ impl Simulation {
 
         let reward_big = rewards[largest_ind];
         let reward_act = agent.get_angle()-angles[largest_ind];
-        println!("{reward_big} {reward_act}");
+        // println!("{reward_big} {reward_act}");
+
+        if reward_big != 0_i8 {
+            self.non_zero_counter = self.non_zero_counter + 1;
+        } else {
+            self.non_zero_counter = 0;
+        }
+
         reward_act
     }
 
@@ -99,8 +122,6 @@ impl Simulation {
 
         let angles = self.get_angle_actions();
         let reward_act = self.rollout(seconds, agent, target, &swarm_com, &average_heading, angles);
-
-        // println!("{reward_act}");
         return reward_act;
     }
 }

@@ -12,6 +12,7 @@ pub struct World {
     waypoints: Vec<Waypoint>,
     waypoint_index: usize,
     agent: Agent,
+    simulation: Simulation,
 }
 
 struct Grid {
@@ -93,6 +94,9 @@ impl World {
         // Create agent
         let agent = create_agent();
 
+        // Create simulation
+        let mut sim = Simulation::new();
+
         World {
             width: size,
             height: size,
@@ -101,6 +105,7 @@ impl World {
             waypoint_index: waypoint_index,
             target: target,
             agent: agent,
+            simulation: sim,
         }
     }
 
@@ -141,8 +146,7 @@ impl World {
             self.boids[i] = boid;
         }
         // Create simulation
-        let mut sim = Simulation::new();
-        let new_angle = sim.find_move(seconds, self.agent.clone(), self.target.clone(),
+        let new_angle = self.simulation.find_move(seconds, self.agent.clone(), self.target.clone(),
                                         self.boids.clone());
 
 
