@@ -35,7 +35,23 @@ impl Simulation {
             return 0_i8;
         }
 
-    pub fn find_move(&mut self, seconds: f32, agent: Agent, target:
+        pub fn get_angle_actions(self) -> Vec<f32> {
+            let pi = 4.5;
+            let mut angles = Vec::<f32>::new();
+            let interval = 0.1;
+            let num_actions_half = (pi/interval) as u8;
+
+            for i in 0..num_actions_half {
+                angles.push(-pi+(i as f32 *interval));
+            }
+            
+            for i in 0..num_actions_half {
+                angles.push(pi-(i as f32 *interval));
+            }
+            angles
+        }
+
+        pub fn find_move(&mut self, seconds: f32, agent: Agent, target:
                         Target, swarm: Vec<Boid>) -> f32 { 
         let mut rng = StepRng::new(2, 25);
         let mut irs = Irs::default();
@@ -58,18 +74,7 @@ impl Simulation {
                 .collect::<Vec<Vector>>(),
         );
 
-        let pi = 4.5;
-        let mut angles = Vec::<f32>::new();
-        let interval = 0.1;
-        let num_actions_half = (pi/interval) as u8;
-
-        for i in 0..num_actions_half {
-            angles.push(-pi+(i as f32 *interval));
-        }
-        
-        for i in 0..num_actions_half {
-            angles.push(pi-(i as f32 *interval));
-        }
+        let mut angles = self.get_angle_actions();
 
         irs.shuffle(&mut angles, &mut rng);
         let mut rewards = Vec::new();
