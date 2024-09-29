@@ -1,4 +1,4 @@
-use crate::vector::Vector;
+use crate::{constants::SIZE, vector::Vector};
 use std::convert::TryInto;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -10,6 +10,23 @@ pub struct Point {
 impl Point {
     pub fn new(x: f32, y: f32) -> Point {
         Point { x, y }
+    }
+
+    #[allow(dead_code)]
+    pub fn bound(self, dx: f32, dy: f32) -> [f32; 2] {
+        let _x = self.x + dx;
+        let _y = self.y + dy;
+        let mut x_mult = 1.0;
+        let mut y_mult = 1.0;
+
+        if (_x >= SIZE) || (_x <= 0.0) {
+            x_mult = -1.0;
+        }
+        if (_y >= SIZE) || (_y <= 0.0) {
+            y_mult = -1.0;
+        }
+
+        [x_mult, y_mult]
     }
 
     pub fn mean(points: Vec<Point>) -> Point {
@@ -52,6 +69,13 @@ impl Point {
         let dy = self.y - other.y;
         let dist = dx.powi(2) + dy.powi(2);
         dist.sqrt()
+    }
+
+    #[allow(dead_code)]
+    pub fn print(self) {
+        let _x = self.x;
+        let _y = self.y;
+        println!("{_x} {_y}");
     }
 }
 

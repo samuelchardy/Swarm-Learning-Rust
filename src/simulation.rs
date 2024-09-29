@@ -17,6 +17,7 @@ impl Simulation {
         }
     }
    
+    #[allow(dead_code)]
     pub fn calc_rollout_depth(self) -> u16 {
         let mut term_2 = (250.0 * (1.2_f32.powf(self.non_zero_counter as f32)).round()) as u16;
         if term_2 > 1000 {
@@ -73,8 +74,8 @@ impl Simulation {
         swarm_com: &Point, average_heading: &Vector, angles: Vec<f32>) -> f32 {
         let mut rewards = Vec::new();
         let mut largest_ind = 0;
-        let rollout_depth = self.calc_rollout_depth();
-        println!("{rollout_depth}");
+        // let rollout_depth = self.calc_rollout_depth();
+        let rollout_depth = 1000;
 
         for i in 0..angles.len() {
             let mut agent_sim = agent;

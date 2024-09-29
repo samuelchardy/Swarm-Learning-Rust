@@ -1,4 +1,4 @@
-use crate::{constants::PI_X_2, point::Point, vector::Vector, rand::Rng};
+use crate::{constants::PI_X_2, point::Point, vector::Vector};
 
 #[derive(Clone, Copy)]
 pub struct Agent {
@@ -47,29 +47,35 @@ impl Agent {
     pub fn step_forward(&mut self, percent: f32) {
         let x = self.vector.dx * percent;
         let y = self.vector.dy * percent;
+
         self.point.move_forward(x, y);
     }
 
-    #[allow(dead_code)]
-    pub fn step(&mut self, seconds: f32) {
-        let mut rng = rand::thread_rng();
-        let random_point = Point::new(
-            rng.gen_range(0_f32..1000_f32),
-            rng.gen_range(0_f32..1000_f32),
-        );
+    pub fn step_forward_bound(&mut self, percent: f32) {
+        let mut x = self.vector.dx * percent;
+        let mut y = self.vector.dy * percent;
 
-        let final_vector = self.point.vector_to(&random_point);
-        self.turn_to(final_vector.get_angle(), 0.04f32);
-        self.step_forward(seconds);
-        self.vector.print();
-        let out = self.get_angle();
-        println!("{out}");
-        println!();
+        let xy_mult = self.point.bound(x, y);
+        
+        if (xy_mult[0] != 1.0) || (xy_mult[1] != 1.0) {
+            x = x * xy_mult[0];
+            y = y * xy_mult[1];
+            let new_vector = Vector {
+                dx: x,
+                dy: y,
+            };
+            self.turn_to(new_vector.get_angle(), 1.0f32);
+
+            x = self.vector.dx * percent;
+            y = self.vector.dy * percent;
+        }
+
+        self.point.move_forward(x, y);
     }
 
     pub fn step_plan(&mut self, seconds: f32, new_angle: f32) {     
         self.turn_to(new_angle, 0.04f32);
-        self.step_forward(seconds);
+        self.step_forward_bound(seconds);
         // let out = self.get_angle();
         // println!("{out}");
     }

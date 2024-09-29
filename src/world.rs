@@ -95,7 +95,7 @@ impl World {
         let agent = create_agent();
 
         // Create simulation
-        let mut sim = Simulation::new();
+        let sim = Simulation::new();
 
         World {
             width: size,
@@ -149,9 +149,8 @@ impl World {
         let new_angle = self.simulation.find_move(seconds, self.agent.clone(), self.target.clone(),
                                         self.boids.clone());
 
-
-
         self.agent.step_plan(seconds, new_angle);
+        self.agent.point.print();
 
         // Move the agent
         // self.agent.step(seconds, self.target);
