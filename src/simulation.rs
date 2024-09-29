@@ -90,7 +90,6 @@ impl Simulation {
 
         let reward_big = rewards[largest_ind];
         let reward_act = agent.get_angle()-angles[largest_ind];
-        // println!("{reward_big} {reward_act}");
 
         if reward_big != 0_i8 {
             self.non_zero_counter = self.non_zero_counter + 1;

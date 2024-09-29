@@ -25,7 +25,6 @@ const MIN_VELOCITY: f32 = 1.5;
 
 const SIGHT: f32 = 10.0;
 const GRID_GAP: f32 = 50.0;
-// const FIELD_OF_VIEW: f32 = std::f32::consts::PI * 3.0 / 4.0;
 
 
 fn create_boids(total_boids: u32) -> Vec<Boid> {
@@ -52,8 +51,6 @@ fn create_waypoints() -> Vec<Waypoint> {
 
     for i in 0..xs.len() {
         let point = Point::new(
-            // rng.gen_range(20_f32..400_f32),
-            // rng.gen_range(20_f32..400_f32),
             xs[i],
             ys[i],
         );
@@ -68,8 +65,6 @@ fn create_agent() -> Agent {
     let vector = Vector {
         dx: -2.0,
         dy: -2.0,
-        // dx: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
-        // dy: rng.gen_range(MIN_VELOCITY..MAX_VELOCITY),
     };
     let agent = Agent::new(point, vector);
     agent
@@ -120,8 +115,6 @@ impl World {
         }
 
         // // Check if agent is at the target
-        // let p = self.agent.get_point().distance_to(&self.target.get_point());
-        // println!("{p}");
         if self.agent.get_point().distance_to(&self.target.get_point()) <= 10_f32 {
             println!("SUCCESS: AGENT REACHED THE TARGET!");
             return 1_i8;
@@ -134,7 +127,6 @@ impl World {
 
             // Determine which waypoint boids should target
             if boid.get_point().distance_to(&self.waypoints[self.waypoint_index].get_point()) < 10_f32 {
-                // println!("{}", self.waypoint_index);
                 if self.waypoint_index == self.waypoints.len()-1 {
                     self.waypoint_index = 0;
                 } else {
@@ -142,18 +134,14 @@ impl World {
                 }
             }
             boid.step(seconds, neighbors, self.waypoints[self.waypoint_index]);
-            // boid.bound(self.width, self.height);
             self.boids[i] = boid;
         }
         // Create simulation
         let new_angle = self.simulation.find_move(seconds, self.agent.clone(), self.target.clone(),
                                         self.boids.clone());
 
-        self.agent.step_plan(seconds, new_angle);
-        self.agent.point.print();
-
         // Move the agent
-        // self.agent.step(seconds, self.target);
+        self.agent.step_plan(seconds, new_angle);
 
         return 0_i8;
     }
@@ -184,11 +172,6 @@ impl World {
                 if vector.get_length() > SIGHT {
                     return false;
                 }
-
-                // if vector.radial_distance(boid.vector) > FIELD_OF_VIEW {
-                //     return false;
-                // }
-
                 true
             })
             .collect::<Vec<Boid>>()

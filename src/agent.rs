@@ -76,8 +76,6 @@ impl Agent {
     pub fn step_plan(&mut self, seconds: f32, new_angle: f32) {     
         self.turn_to(new_angle, 0.04f32);
         self.step_forward_bound(seconds);
-        // let out = self.get_angle();
-        // println!("{out}");
     }
 
 }

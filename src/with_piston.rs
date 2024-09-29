@@ -50,7 +50,6 @@ fn main() {
                     .trans(point.get_x() as f64, point.get_y() as f64)
                     .rot_rad(0 as f64);
 
-                // let width = 20.0 * (i as f64+1.0);
                 let width = 1.0 * waypoint.radius;
                 let rect = [-width/2.0, -width/2.0,
                             width, width];
