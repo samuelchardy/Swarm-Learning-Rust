@@ -83,7 +83,7 @@ impl World {
         }
     }
 
-    pub fn step(&mut self, seconds: f32) -> i8 {
+    pub fn check_win_conditions(&mut self) -> i8 {
         // Check if agent is to close to a boid
         for i in 0..self.boids.len() {
             let boid = self.boids[i];
@@ -98,8 +98,10 @@ impl World {
             println!("SUCCESS: AGENT REACHED THE TARGET!");
             return 1_i8;
         }
+        return 0_i8;
+    }
 
-        // Move the boids
+    pub fn move_swarm(&mut self, seconds: f32) {
         for i in 0..self.boids.len() {
             let mut boid = self.boids[i];
             let neighbors = self.clone().get_visible_neighbors(&boid);
@@ -115,6 +117,18 @@ impl World {
             boid.step(seconds, neighbors, self.waypoints[self.waypoint_index]);
             self.boids[i] = boid;
         }
+    }
+
+    pub fn step(&mut self, seconds: f32) -> i8 {
+        // Check win conditions
+        let win = self.check_win_conditions();
+        if win != 0 {
+            return win;
+        }
+
+        // Move the boids
+        self.move_swarm(seconds);
+
         // Create simulation
         let new_angle = self.simulation.find_move(seconds, self.agent.clone(), self.target.clone(),
                                         self.boids.clone());
