@@ -1,5 +1,5 @@
 use crate::{boid::Boid, point::Point, vector::Vector, waypoint::Waypoint,
-            target::Target, agent::Agent, simulation::Simulation};
+            target::Target, agent::Agent, simulation::Simulation, scenarios::create_target_waypoints};
 use rand::Rng;
 
 #[allow(dead_code)]
@@ -44,21 +44,6 @@ fn create_boids(total_boids: u32) -> Vec<Boid> {
     boids
 }
 
-fn create_waypoints() -> Vec<Waypoint> {
-    let mut waypoints = Vec::new();
-    let xs: [f32; 3] = [250.0, 550.0, 400.0];
-    let ys: [f32; 3] = [250.0, 250.0, 550.0];
-
-    for i in 0..xs.len() {
-        let point = Point::new(
-            xs[i],
-            ys[i],
-        );
-        waypoints.push(Waypoint::new(point, 160_f64, i as f32));
-    }
-    waypoints
-}
-
 fn create_agent() -> Agent {
     // let rng = rand::thread_rng();
     let point = Point::new(950.0, 950.0);
@@ -71,20 +56,14 @@ fn create_agent() -> Agent {
 }
 
 impl World {
-    pub fn new(total_boids: u32, size: f32) -> World {
-        // Create target
-        let point = Point::new(
-            400_f32,
-            400_f32,
-        );
-        let target = Target::new(point);
+    pub fn new(total_boids: u32, size: f32, difficulty: &String) -> World {
+
+        // Create target & waypoints based on difficulty
+        let (target, waypoints) = create_target_waypoints(difficulty);
+        let waypoint_index = 0;
 
         // Create boids
         let boids = create_boids(total_boids);
-
-        // Create waypoints
-        let waypoints = create_waypoints();
-        let waypoint_index = 0;
 
         // Create agent
         let agent = create_agent();

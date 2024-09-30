@@ -10,9 +10,11 @@ mod waypoint;
 mod target;
 mod agent;
 mod simulation;
+mod scenarios;
 
 use piston_window::*;
 use world::World;
+use std::env;
 
 const NUM_BOIDS: u32 = 100;
 const SIZE: u32 = 1000;
@@ -21,7 +23,10 @@ const BOID_BOD: &'static [[f64; 2]] = &[[5.0, 5.0], [10.0, 0.0], [5.0, 15.0], [0
 const TARGET_BOD: &'static [[f64; 2]] = &[[0.0, 0.0], [10.0, 0.0], [10.0, 10.0], [0.0, 10.0]];
 
 fn main() {
-    let mut environment = World::new(NUM_BOIDS, SIZE as f32);
+    let args: Vec<String> = env::args().collect();
+    let difficulty = args[1].clone();
+
+    let mut environment = World::new(NUM_BOIDS, SIZE as f32, &difficulty);
     println!(
         "=== Flock of Seaboids with Piston ===\n {} [version {}]",
         env!("CARGO_PKG_DESCRIPTION"),
