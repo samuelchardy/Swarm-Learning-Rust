@@ -106,16 +106,25 @@ impl World {
             let mut boid = self.boids[i];
             let neighbors = self.clone().get_visible_neighbors(&boid);
 
-            // Determine which waypoint boids should target
-            if boid.get_point().distance_to(&self.waypoints[self.waypoint_index].get_point()) < 10_f32 {
-                if self.waypoint_index == self.waypoints.len()-1 {
-                    self.waypoint_index = 0;
-                } else {
-                    self.waypoint_index = self.waypoint_index + 1;
-                }
-            }
             boid.step(seconds, neighbors, self.waypoints[self.waypoint_index]);
             self.boids[i] = boid;
+        }
+
+        // Calculate the swarms centre of mass
+        let swarm_com = Point::mean(
+            self.boids
+                .iter()
+                .map(|b| b.point)
+                .collect::<Vec<Point>>(),
+        );
+
+        // Determine which waypoint boids should target
+        if swarm_com.distance_to(&self.waypoints[self.waypoint_index].get_point()) < 40_f32 {
+            if self.waypoint_index == self.waypoints.len()-1 {
+                self.waypoint_index = 0;
+            } else {
+                self.waypoint_index = self.waypoint_index + 1;
+            }
         }
     }
 
@@ -134,7 +143,7 @@ impl World {
                                         self.boids.clone());
 
         // Move the agent
-        self.agent.step_plan(seconds, new_angle);
+        // self.agent.step_plan(seconds, new_angle);
 
         return 0_i8;
     }
