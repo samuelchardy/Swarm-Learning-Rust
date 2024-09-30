@@ -1,4 +1,4 @@
-# rust-flock-of-boids
+# Swarm Learning
 ## Description
 A fork of camsjams/rust-flock-of-boids designed to replicate an existing swarm and target problem written in java. 
 
