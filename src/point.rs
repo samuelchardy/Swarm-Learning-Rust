@@ -1,4 +1,4 @@
-use crate::{constants::SIZE, vector::Vector};
+use crate::{constants::*, vector::Vector};
 use std::convert::TryInto;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -19,10 +19,10 @@ impl Point {
         let mut x_mult = 1.0;
         let mut y_mult = 1.0;
 
-        if (_x >= SIZE) || (_x <= 0.0) {
+        if (_x >= ENV_WIDTH) || (_x <= 0.0) {
             x_mult = -1.0;
         }
-        if (_y >= SIZE) || (_y <= 0.0) {
+        if (_y >= ENV_HEIGHT) || (_y <= 0.0) {
             y_mult = -1.0;
         }
 

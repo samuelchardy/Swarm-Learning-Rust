@@ -16,13 +16,14 @@ use piston_window::*;
 use world::World;
 use std::env;
 use std::process::ExitCode;
+use constants::*;
 
 const NUM_BOIDS: u32 = 100;
-const SIZE: u32 = 1000;
 
 const BOID_BOD: &'static [[f64; 2]] = &[[5.0, 5.0], [10.0, 0.0], [5.0, 15.0], [0.0, 0.0]];
 const TARGET_BOD: &'static [[f64; 2]] = &[[0.0, 0.0], [10.0, 0.0], [10.0, 10.0], [0.0, 10.0]];
 
+#[allow(dead_code)]
 fn draw_waypoints(environment: &World, gfx: &mut G2d, context: &Context) {
     let waypoints = environment.get_waypoints();
     for i in 0..waypoints.len() {
@@ -74,6 +75,7 @@ fn draw_agent(environment: &World, gfx: &mut G2d, context: &Context) {
     polygon(agent.color, BOID_BOD, transform, gfx);
 }
 
+
 fn main() -> ExitCode{
     let args: Vec<String> = env::args().collect();
 
@@ -83,13 +85,8 @@ fn main() -> ExitCode{
     }
     let difficulty = args[1].clone();
 
-    let mut environment = World::new(NUM_BOIDS, SIZE as f32, &difficulty);
-    println!(
-        "=== Flock of Seaboids with Piston ===\n {} [version {}]",
-        env!("CARGO_PKG_DESCRIPTION"),
-        env!("CARGO_PKG_VERSION"),
-    );
-    let mut window: PistonWindow = WindowSettings::new("flock-of-boids", (SIZE, SIZE))
+    let mut environment = World::new(NUM_BOIDS, &difficulty);
+    let mut window: PistonWindow = WindowSettings::new("LSM Colab - Swarm Learning", (ENV_WIDTH as u32, ENV_HEIGHT as u32))
         .exit_on_esc(true)
         .build()
         .unwrap_or_else(|e| panic!("Failed to build PistonWindow: {}", e));
@@ -104,7 +101,7 @@ fn main() -> ExitCode{
             game_over = environment.step(i);
 
             // Redraw the waypoints
-            draw_waypoints(&environment, gfx, &context);
+            // draw_waypoints(&environment, gfx, &context);
 
             // Redraw the target
             draw_target(&environment, gfx, &context);
