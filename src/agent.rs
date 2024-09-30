@@ -1,4 +1,5 @@
 use crate::{constants::PI_X_2, point::Point, vector::Vector};
+use piston_window::*;
 
 #[derive(Clone, Copy)]
 pub struct Agent {
@@ -78,4 +79,12 @@ impl Agent {
         self.step_forward_bound(seconds);
     }
 
+    pub fn draw(self, boid_bod: &'static [[f64; 2]], gfx: &mut G2d, context: &Context) {
+        let transform = context
+        .transform
+        .trans(self.point.get_x() as f64, self.point.get_y() as f64)
+        .rot_rad(-1.57075 + self.get_angle() as f64);
+
+        polygon(self.color, boid_bod, transform, gfx);
+    }
 }
