@@ -23,6 +23,57 @@ const SIZE: u32 = 1000;
 const BOID_BOD: &'static [[f64; 2]] = &[[5.0, 5.0], [10.0, 0.0], [5.0, 15.0], [0.0, 0.0]];
 const TARGET_BOD: &'static [[f64; 2]] = &[[0.0, 0.0], [10.0, 0.0], [10.0, 10.0], [0.0, 10.0]];
 
+fn draw_waypoints(environment: &World, gfx: &mut G2d, context: &Context) {
+    let waypoints = environment.get_waypoints();
+    for i in 0..waypoints.len() {
+        let waypoint = waypoints[i];
+        let point = waypoint.get_point();
+        let transform = context
+            .transform
+            .trans(point.get_x() as f64, point.get_y() as f64)
+            .rot_rad(0 as f64);
+
+        let width = 1.0 * waypoint.radius;
+        let rect = [-width/2.0, -width/2.0,
+                    width, width];
+        ellipse(waypoint.color, rect, transform, gfx);
+    }
+}
+
+fn draw_target(environment: &World, gfx: &mut G2d, context: &Context) {
+    let target = environment.get_target();
+    let point = target.get_point();
+    let transform = context
+            .transform
+            .trans(point.get_x() as f64, point.get_y() as f64)
+            .rot_rad(0 as f64);
+    polygon(target.color, TARGET_BOD, transform, gfx);
+}
+
+fn draw_swarm(environment: &World, gfx: &mut G2d, context: &Context) {
+    let boids = environment.get_boids();
+    for i in 0..boids.len() {
+        let boid = boids[i];
+        let point = boid.get_point();
+        let transform = context
+            .transform
+            .trans(point.get_x() as f64, point.get_y() as f64)
+            .rot_rad(-1.57075 + boid.get_angle() as f64);
+
+        polygon(boid.color, BOID_BOD, transform, gfx);
+    }
+}
+
+fn draw_agent(environment: &World, gfx: &mut G2d, context: &Context) {
+    let agent = environment.get_agent();
+    let point = agent.get_point();
+    let transform = context
+        .transform
+        .trans(point.get_x() as f64, point.get_y() as f64)
+        .rot_rad(-1.57075 + agent.get_angle() as f64);
+    polygon(agent.color, BOID_BOD, transform, gfx);
+}
+
 fn main() -> ExitCode{
     let args: Vec<String> = env::args().collect();
 
@@ -48,57 +99,21 @@ fn main() -> ExitCode{
         let mut game_over = 0_i8;
 
         window.draw_2d(&e, |context, gfx, _| {
-            clear([0.2, 0.2, 0.2, 1.0], gfx);
+            // Redraw background
+            clear([0.24, 0.24, 0.24, 1.0], gfx);
             game_over = environment.step(i);
 
             // Redraw the waypoints
-            let waypoints = environment.get_waypoints();
-            for i in 0..waypoints.len() {
-                let waypoint = waypoints[i];
-                let point = waypoint.get_point();
-                let transform = context
-                    .transform
-                    .trans(point.get_x() as f64, point.get_y() as f64)
-                    .rot_rad(0 as f64);
+            draw_waypoints(&environment, gfx, &context);
 
-                let width = 1.0 * waypoint.radius;
-                let rect = [-width/2.0, -width/2.0,
-                            width, width];
-                ellipse(waypoint.color, rect, transform, gfx);
-            }
-
-            // redraw the target
-            let target = environment.get_target();
-            let point = target.get_point();
-            let transform = context
-                    .transform
-                    .trans(point.get_x() as f64, point.get_y() as f64)
-                    .rot_rad(0 as f64);
-            polygon(target.color, TARGET_BOD, transform, gfx);
+            // Redraw the target
+            draw_target(&environment, gfx, &context);
 
             // Redraw the boids
-            let boids = environment.get_boids();
-            for i in 0..boids.len() {
-                let boid = boids[i];
-                let point = boid.get_point();
-                let transform = context
-                    .transform
-                    .trans(point.get_x() as f64, point.get_y() as f64)
-                    .rot_rad(-1.57075 + boid.get_angle() as f64);
+            draw_swarm(&environment, gfx, &context);
 
-                polygon(boid.color, BOID_BOD, transform, gfx);
-            }
-
-            // Move and draw the agent
-            let agent = environment.get_agent();
-            //move agent
-            let point = agent.get_point();
-            let transform = context
-                .transform
-                .trans(point.get_x() as f64, point.get_y() as f64)
-                .rot_rad(-1.57075 + agent.get_angle() as f64);
-
-            polygon(agent.color, BOID_BOD, transform, gfx);
+            // Redraw the agent
+            draw_agent(&environment, gfx, &context);
         });
 
         if game_over != 0_i8 {

@@ -8,7 +8,7 @@ pub struct Waypoint {
     pub color: [f32; 4],
 }
 
-const WAYPOINT_COLOR: [f32; 4] = [0.05, 0.95, 0.05, 0.20];
+const WAYPOINT_COLOR: [f32; 4] = [0.05, 0.05, 0.85, 0.20];
 
 impl Waypoint {
     pub fn new(point: Point, radius: f64, id: f32) -> Waypoint {

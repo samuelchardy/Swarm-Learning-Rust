@@ -6,7 +6,7 @@ pub struct Target {
     pub color: [f32; 4],
 }
 
-const TARGET_COLOR: [f32; 4] = [0.95, 0.05, 0.05, 0.95];
+const TARGET_COLOR: [f32; 4] = [1.0, 0.02, 0.02, 0.95];
 
 impl Target {
     pub fn new(point: Point) -> Target {
