@@ -15,6 +15,7 @@ mod scenarios;
 use piston_window::*;
 use world::World;
 use std::env;
+use std::process::ExitCode;
 
 const NUM_BOIDS: u32 = 100;
 const SIZE: u32 = 1000;
@@ -22,8 +23,13 @@ const SIZE: u32 = 1000;
 const BOID_BOD: &'static [[f64; 2]] = &[[5.0, 5.0], [10.0, 0.0], [5.0, 15.0], [0.0, 0.0]];
 const TARGET_BOD: &'static [[f64; 2]] = &[[0.0, 0.0], [10.0, 0.0], [10.0, 10.0], [0.0, 10.0]];
 
-fn main() {
+fn main() -> ExitCode{
     let args: Vec<String> = env::args().collect();
+
+    if args.len() < 2 {
+        println!("\n\ncargo run --bin with_piston DIFFICULTY[easy, medium, hard]");
+        return ExitCode::from(0);
+    }
     let difficulty = args[1].clone();
 
     let mut environment = World::new(NUM_BOIDS, SIZE as f32, &difficulty);
@@ -99,4 +105,5 @@ fn main() {
             break;
         }
     }
+    return ExitCode::SUCCESS;
 }
