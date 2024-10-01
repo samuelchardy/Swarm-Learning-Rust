@@ -8,7 +8,7 @@ pub struct Target {
 }
 
 const TARGET_COLOR: [f32; 4] = [1.0, 0.02, 0.02, 0.95];
-const TARGET_BOD: &'static [[f64; 2]] = &[[0.0, 0.0], [10.0, 0.0], [10.0, 10.0], [0.0, 10.0]];
+const TARGET_BOD: &'static [[f64; 2]] = &[[-5.0, -5.0], [5.0, -5.0], [5.0, 5.0], [-5.0, 5.0]];
 
 impl Target {
     pub fn new(point: Point) -> Target {

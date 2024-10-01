@@ -9,7 +9,7 @@ pub struct Agent {
 }
 
 const AGENT_COLOR: [f32; 4] = [0.82, 0.20, 0.51, 0.95];
-const BOID_BOD: &'static [[f64; 2]] = &[[5.0, 5.0], [10.0, 0.0], [5.0, 15.0], [0.0, 0.0]];
+const BOID_BOD: &'static [[f64; 2]] = &[[0.0, -2.5], [5.0, -7.5], [0.0, 7.5], [-5.0, -7.5]];
 
 impl Agent {
     pub fn new(point: Point, vector: Vector) -> Agent {
