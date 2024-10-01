@@ -3,6 +3,7 @@ use crate::{point::Point, target::Target, boid::Boid, agent::Agent, vector::Vect
 use shuffle::shuffler::Shuffler;
 use shuffle::irs::Irs;
 use rand::rngs::mock::StepRng;
+use std::time::Instant;
 
 #[derive(Clone, Copy)]
 pub struct Simulation {
@@ -76,6 +77,8 @@ impl Simulation {
         let mut largest_ind = 0;
         // let rollout_depth = self.calc_rollout_depth();
         let rollout_depth = 1000;
+        
+        let time_now = Instant::now();
 
         for i in 0..angles.len() {
             let mut agent_sim = agent;
@@ -85,6 +88,11 @@ impl Simulation {
 
             if sim_reward_val > rewards[largest_ind] {
                 largest_ind = i;
+            }
+
+            if time_now.elapsed().as_millis() >= 20 {
+                // println!("Had to break sim");
+                break;
             }
         }
 
