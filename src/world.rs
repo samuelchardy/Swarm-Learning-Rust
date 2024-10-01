@@ -138,7 +138,7 @@ impl World {
         // Move the boids
         self.move_swarm(seconds);
 
-        // Create simulation
+        // Run simulation
         let new_angle = self.simulation.find_move(seconds, self.agent.clone(), self.target.clone(),
                                         self.boids.clone());
 

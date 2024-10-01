@@ -1,12 +1,11 @@
 [package]
-name = "rust-flock-of-boids"
-description  = "A showdown between bevy, tetra, amethyst, and piston"
+name = "LSM-Colab-Swarm-Learning"
+description  = "A fork of camsjams/rust-flock-of-boids designed to replicate an existing swarm and target problem written in java."
 version = "0.1.0"
-authors = ["Cameron Manavian <cameron.manavian@gmail.com>"]
+authors = ["Samuel Hardy <samuelchadhardy@gmail.com>", "Cameron Manavian <cameron.manavian@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-bevy = "0.4"
 piston_window = "0.117.0"
 rand = "0.8.2"
 shuffle = "0.1.7"
