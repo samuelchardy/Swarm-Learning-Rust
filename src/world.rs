@@ -143,7 +143,7 @@ impl World {
                                         self.boids.clone());
 
         // Move the agent
-        // self.agent.step_plan(seconds, new_angle);
+        self.agent.step_plan(seconds, new_angle);
 
         return 0_i8;
     }

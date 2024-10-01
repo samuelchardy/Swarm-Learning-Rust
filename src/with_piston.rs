@@ -18,11 +18,6 @@ use std::env;
 use std::process::ExitCode;
 use constants::*;
 
-const NUM_BOIDS: u32 = 100;
-
-const BOID_BOD: &'static [[f64; 2]] = &[[5.0, 5.0], [10.0, 0.0], [5.0, 15.0], [0.0, 0.0]];
-const TARGET_BOD: &'static [[f64; 2]] = &[[0.0, 0.0], [10.0, 0.0], [10.0, 10.0], [0.0, 10.0]];
-
 #[allow(dead_code)]
 fn draw_waypoints(environment: &World, gfx: &mut G2d, context: &Context) {
     let waypoints = environment.get_waypoints();
@@ -32,31 +27,32 @@ fn draw_waypoints(environment: &World, gfx: &mut G2d, context: &Context) {
 }
 
 fn draw_target(environment: &World, gfx: &mut G2d, context: &Context) {
-    environment.get_target().draw(TARGET_BOD, gfx, context);
+    environment.get_target().draw(gfx, context);
 }
 
 fn draw_swarm(environment: &World, gfx: &mut G2d, context: &Context) {
     let boids = environment.get_boids();
     for i in 0..boids.len() {
-        boids[i].draw(BOID_BOD, gfx, context);
+        boids[i].draw(gfx, context);
     }
 }
 
 fn draw_agent(environment: &World, gfx: &mut G2d, context: &Context) {
-    environment.get_agent().draw(BOID_BOD, gfx, context);
+    environment.get_agent().draw(gfx, context);
 }
 
 
 fn main() -> ExitCode{
     let args: Vec<String> = env::args().collect();
 
-    if args.len() < 2 {
-        println!("\n\ncargo run --bin with_piston DIFFICULTY[easy, medium, hard]");
+    if args.len() < 3 {
+        println!("\n\ncargo run --bin with_piston DIFFICULTY[easy, medium, hard], NUM_BOIDS");
         return ExitCode::from(0);
     }
-    let difficulty = args[1].clone();
+    let difficulty = &args[1];
+    let num_boids = args[2].parse::<u32>().unwrap();
 
-    let mut environment = World::new(NUM_BOIDS, &difficulty);
+    let mut environment = World::new(num_boids, &difficulty);
     let mut window: PistonWindow = WindowSettings::new("LSM Colab - Swarm Learning", (ENV_WIDTH as u32, ENV_HEIGHT as u32))
         .exit_on_esc(true)
         .build()

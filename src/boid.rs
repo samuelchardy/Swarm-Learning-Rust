@@ -10,6 +10,7 @@ pub struct Boid {
 }
 
 const BOID_COLOR: [f32; 4] = [0.75, 0.9, 0.36, 0.9];
+const BOID_BOD: &'static [[f64; 2]] = &[[5.0, 5.0], [10.0, 0.0], [5.0, 15.0], [0.0, 0.0]];
 
 impl Boid {
     pub fn new(point: Point, vector: Vector, id: u32) -> Boid {
@@ -92,12 +93,12 @@ impl Boid {
         self.set_angle(angle + diff * percent);
     }
 
-    pub fn draw(self, boid_bod: &'static [[f64; 2]], gfx: &mut G2d, context: &Context) {
+    pub fn draw(self, gfx: &mut G2d, context: &Context) {
         let transform = context
         .transform
         .trans(self.point.get_x() as f64, self.point.get_y() as f64)
         .rot_rad(-1.57075 + self.get_angle() as f64);
 
-        polygon(self.color, boid_bod, transform, gfx);
+        polygon(self.color, BOID_BOD, transform, gfx);
     }
 }
